@@ -52,7 +52,7 @@ class Dash {
         const variables = {};
         let output = "";
 
-        for (let instructionNum = 0; instructionNum < instructions.length; ++instructionNum) {
+        instructionsLoop: for (let instructionNum = 0; instructionNum < instructions.length; ++instructionNum) {
             const instruction = instructions[instructionNum].trim();
             const exec = INSTRUCT_REGEX.exec(instruction);
 
@@ -62,91 +62,86 @@ class Dash {
 
             // Start processing expression
 
-            let signGroups = expression.split(" ");
-            let signGroupValues = [];
+            let expressionValue = 0,
+                dupliStack = [],
+                addOrSubtract = 1;
 
-            signGroupsLoop: for (let signGroupNum = 0; signGroupNum < signGroups.length; ++signGroupNum) {
-                const signGroup = signGroups[signGroupNum];
-                let signGroupValue = 0,
-                    dupliStack = [];
+            expressionLoop: for (let signNum = 0; signNum < expression.length; ++signNum) {
+                let sign = expression[signNum];
 
-                signGroupLoop: for (let signNum = 0; signNum < signGroup.length; ++signNum) {
-                    let sign = signGroup[signNum];
-
-                    switch (sign) {
-                        case "{": {
-                            let variableName = "",
-                                variableChar = "";
+                switch (sign) {
+                    case "{": {
+                        let variableName = "",
+                            variableChar = "";
     
-                            while ((variableChar = signGroup[++signNum]) !== "}") {
-                                if (signNum >= signGroup.length)
-                                    break signGroupLoop;
+                        while ((variableChar = expression[++signNum]) !== "}") {
+                            if (variableChar === " ")
+                                break expressionLoop;
     
-                                variableName += variableChar;
-                            }
+                            variableName += variableChar;
+                        }
     
-                            addToTarget(variables[variableName]);
-                            break;
-                        }
-                        case "[": {
-                            let variableName = "",
-                                variableChar = "";
-                            
-                            while ((variableChar = signGroup[++signNum]) !== "]") {
-                                if (signNum >= signGroup.length)
-                                    break signGroupLoop;
-                                
-                                variableName += variableChar;
-                            }
-    
-                            const calledReservedVar = reservedVariables[variableName]
-                            addToTarget((typeof calledReservedVar === "function" ? calledReservedVar() : calledReservedVar));
-
-                            break;
-                        }
-                        case "(": {
-                            dupliStack.push(0);
-                            break;
-                        }
-                        case ")": {
-                            if (dupliStack.length === 1)
-                                signGroupValue *= dupliStack[0];
-                            else
-                                dupliStack[dupliStack.length - 2] *= dupliStack[dupliStack.length - 1];
-
-                            dupliStack.pop();
-                            break;
-                        }
-                        case "|":
-                            signGroupValues.push(signGroupValue);
-                            break signGroupsLoop;
-                        default:
-                            addToTarget(SIGNS[sign] || 0);
-                            break;
+                        addToTarget(variables[variableName]);
+                        break;
                     }
-                }
+                    case "[": {
+                        let variableName = "",
+                            variableChar = "";
+                        
+                        while ((variableChar = expression[++signNum]) !== "]") {
+                            if (variableChar === " ")
+                                break expressionLoop;
+                            
+                            variableName += variableChar;
+                        }
+    
+                        const calledReservedVar = reservedVariables[variableName]
+                        addToTarget((typeof calledReservedVar === "function" ? calledReservedVar() : calledReservedVar));
 
-                signGroupValues.push(signGroupValue);
+                        break;
+                    }
+                    case "(": {
+                        dupliStack.push(0);
+                        break;
+                    }
+                    case ")": {
+                        if (dupliStack.length === 1)
+                            expressionValue *= dupliStack[0];
+                        else
+                            dupliStack[dupliStack.length - 2] *= dupliStack[dupliStack.length - 1];
 
-                function addToTarget(value) {
-                    if (dupliStack.length === 0)
-                        signGroupValue += value;
-                    else
-                        dupliStack[dupliStack.length - 1] += value;
+                        dupliStack.pop();
+                        break;
+                    }
+                    case " ":
+                        addOrSubtract = -1;
+                        break;
+                    case "|":
+                        break expressionLoop;
+                    default:
+                        addToTarget(SIGNS[sign]);
+                        break;
                 }
             }
-            
-            const lastResult = signGroupValues.reduce((signGroupValue1, signGroupValue2) => signGroupValue1 - signGroupValue2);
+
+            function addToTarget(value) {
+                const valueToAdd = (value || 0) * addOrSubtract;
+
+                if (dupliStack.length === 0)
+                    expressionValue += valueToAdd;
+                else
+                    dupliStack[dupliStack.length - 1] += valueToAdd;
+            }
 
             // Check instructor what to do with the expression
 
             if (instructor === ">")
-                output += String.fromCharCode(Math.trunc(lastResult));
+                output += String.fromCharCode(Math.trunc(expressionValue));
             else if (instructor === ">>")
-                output += lastResult.toString();
+                output += expressionValue.toString();
             else if (instructor.startsWith("#")) {
                 const variableName = instructor.slice(1, instructor.length);
-                variables[variableName] = lastResult;
+                variables[variableName] = expressionValue;
             }
         }
 
