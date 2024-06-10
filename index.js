@@ -1,5 +1,4 @@
 /**
- * @instance
  * @class
  * @classdesc Declare a new Dash Intepreter instance
  */
@@ -52,7 +51,7 @@ class Dash {
         const variables = {};
         let output = "";
 
-        instructionsLoop: for (let instructionNum = 0; instructionNum < instructions.length; ++instructionNum) {
+        for (let instructionNum = 0; instructionNum < instructions.length; ++instructionNum) {
             const instruction = instructions[instructionNum].trim();
             const exec = INSTRUCT_REGEX.exec(instruction);
 
