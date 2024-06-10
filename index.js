@@ -147,12 +147,3 @@ export default class Dash {
         return output;
     }
 }
-const src = await Bun.file("./input.dsh").text();
-
-const DashInstance = new Dash();
-
-console.log(
-    DashInstance
-        .setInput("javascript")
-        .intepret(src)
-);
