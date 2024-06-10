@@ -2,7 +2,7 @@
  * @class
  * @classdesc Declare a new Dash Intepreter instance
  */
-class Dash {
+export default class Dash {
     constructor() {
         this.input = "";
     }
