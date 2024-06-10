@@ -55,7 +55,7 @@ export default class Dash {
             const instruction = instructions[instructionNum].trim();
             const exec = INSTRUCT_REGEX.exec(instruction);
 
-            if (!exec) continue;
+            if (!exec || instruction.startsWith("|")) continue;
 
             const [_, instructor, expression] = exec;
 
