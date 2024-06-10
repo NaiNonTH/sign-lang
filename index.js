@@ -112,7 +112,7 @@ export default class Dash {
                         dupliStack.pop();
                         break;
                     }
-                    case " ":
+                    case " ": // end of sign group
                         addOrSubtract = -1;
                         break;
                     case "|":
