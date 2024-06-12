@@ -133,6 +133,27 @@ export default class Dash {
                 }
             }
 
+            // Check instructor what to do with the expression
+
+            if (instructor === ">") {
+                const toOutput = String.fromCharCode(Math.trunc(expressionValue));
+                output += toOutput;
+                this.config.onexecute(toOutput);
+            }
+            else if (instructor === ">>") {
+                const toOutput = expressionValue.toString();
+                output += toOutput;
+                this.config.onexecute(toOutput);
+            }
+            else if (instructor.startsWith("^")) 
+                jumpWithSignBitOf(1);
+            else if (instructor.startsWith("v"))
+                jumpWithSignBitOf(0);
+            else if (instructor.startsWith("#")) {
+                const variableName = instructor.slice(1, instructor.length);
+                variables[variableName] = expressionValue;
+            }
+            
             function addToTarget(value) {
                 const valueToAdd = (value || 0) * addOrSubtract;
 
@@ -170,27 +191,6 @@ export default class Dash {
                     else
                         instructionNum += expressionValue - 1;
                 }
-            }
-
-            // Check instructor what to do with the expression
-
-            if (instructor === ">") {
-                const toOutput = String.fromCharCode(Math.trunc(expressionValue));
-                output += toOutput;
-                this.config.onexecute(toOutput);
-            }
-            else if (instructor === ">>") {
-                const toOutput = expressionValue.toString();
-                output += toOutput;
-                this.config.onexecute(toOutput);
-            }
-            else if (instructor.startsWith("^")) 
-                jumpWithSignBitOf(1);
-            else if (instructor.startsWith("v"))
-                jumpWithSignBitOf(0);
-            else if (instructor.startsWith("#")) {
-                const variableName = instructor.slice(1, instructor.length);
-                variables[variableName] = expressionValue;
             }
         }
 
