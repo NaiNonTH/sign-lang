@@ -3,8 +3,16 @@
  * @classdesc Declare a new Dash Intepreter instance
  */
 export default class Dash {
-    constructor() {
+    /**
+     * @param {Object} config
+     * @param {Function} config.onexecute
+     */
+    constructor(config) {
         this.input = "";
+        this.userConfig = config;
+        this.config = {
+            onexecute: () => {}
+        };
     }
 
     #callInputWithClosure() {
@@ -34,6 +42,8 @@ export default class Dash {
      * @returns {string}
      */
     intepret(src) {
+        Object.assign(this.config, this.userConfig);
+
         const SIGNS = {
             ".": 0.1,
             "_": 0.5,
@@ -134,10 +144,16 @@ export default class Dash {
 
             // Check instructor what to do with the expression
 
-            if (instructor === ">")
-                output += String.fromCharCode(Math.trunc(expressionValue));
-            else if (instructor === ">>")
-                output += expressionValue.toString();
+            if (instructor === ">") {
+                const toOutput = String.fromCharCode(Math.trunc(expressionValue));
+                output += toOutput;
+                this.config.onexecute(toOutput);
+            }
+            else if (instructor === ">>") {
+                const toOutput = expressionValue.toString();
+                output += toOutput;
+                this.config.onexecute(toOutput);
+            }
             else if (instructor.startsWith("#")) {
                 const variableName = instructor.slice(1, instructor.length);
                 variables[variableName] = expressionValue;
