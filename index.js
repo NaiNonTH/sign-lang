@@ -154,6 +154,12 @@ export default class Dash {
                 output += toOutput;
                 this.config.onexecute(toOutput);
             }
+            else if (instructor === "^") {
+                instructionNum -= expressionValue - 1;
+            }
+            else if (instructor === "v") {
+                instructionNum += expressionValue - 1;
+            }
             else if (instructor.startsWith("#")) {
                 const variableName = instructor.slice(1, instructor.length);
                 variables[variableName] = expressionValue;
