@@ -179,9 +179,11 @@ export default class Dash {
                         case "|":
                             if (variables[first] === variables[second])
                                 jump();
+                            break;
                         case "!":
                             if (variables[first] !== variables[second])
                                 jump();
+                            break;
                     }
                 }
 
