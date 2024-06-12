@@ -142,6 +142,36 @@ export default class Dash {
                     dupliStack[dupliStack.length - 1] += valueToAdd;
             }
 
+            function jumpWithSignBitOf(signBit) {
+                const COMPARE_REGEX = /^\((.*?)([|!])(.*?)\)$/;
+                
+                if (instructor.length === 1) jump();
+                else {
+                    const comparedVar = instructor.slice(1, instructor.length);
+                    const varExec = COMPARE_REGEX.exec(comparedVar);
+    
+                    if (!varExec) return;
+
+                    const [_, first, operator, second] = varExec;
+
+                    switch (operator) {
+                        case "|":
+                            if (variables[first] === variables[second])
+                                jump();
+                        case "!":
+                            if (variables[first] !== variables[second])
+                                jump();
+                    }
+                }
+
+                function jump() {
+                    if (signBit)
+                        instructionNum -= expressionValue + 1;
+                    else
+                        instructionNum += expressionValue - 1;
+                }
+            }
+
             // Check instructor what to do with the expression
 
             if (instructor === ">") {
@@ -154,12 +184,10 @@ export default class Dash {
                 output += toOutput;
                 this.config.onexecute(toOutput);
             }
-            else if (instructor === "^") {
-                instructionNum -= expressionValue - 1;
-            }
-            else if (instructor === "v") {
-                instructionNum += expressionValue - 1;
-            }
+            else if (instructor.startsWith("^")) 
+                jumpWithSignBitOf(1);
+            else if (instructor.startsWith("v"))
+                jumpWithSignBitOf(0);
             else if (instructor.startsWith("#")) {
                 const variableName = instructor.slice(1, instructor.length);
                 variables[variableName] = expressionValue;
