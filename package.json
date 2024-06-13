@@ -2,6 +2,9 @@
   "name": "dash",
   "module": "index.js",
   "type": "module",
+  "scripts": {
+    "test": "bun test ./test/index.test.js"
+  },
   "devDependencies": {
     "@types/bun": "latest"
   },
