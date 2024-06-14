@@ -2,6 +2,7 @@
   "name": "sign-lang",
   "module": "index.js",
   "type": "module",
+  "bin": "./bin/index.js",
   "scripts": {
     "test": "bun test ./test/index.test.js"
   },
