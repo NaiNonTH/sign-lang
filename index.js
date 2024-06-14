@@ -109,19 +109,6 @@ export default class Dash {
 
                         break;
                     }
-                    case "(": {
-                        dupliStack.push(0);
-                        break;
-                    }
-                    case ")": {
-                        if (dupliStack.length === 1)
-                            expressionValue *= dupliStack[0];
-                        else
-                            dupliStack[dupliStack.length - 2] *= dupliStack[dupliStack.length - 1];
-
-                        dupliStack.pop();
-                        break;
-                    }
                     case " ": // end of sign group
                         addOrSubtract = -1;
                         break;
@@ -145,6 +132,13 @@ export default class Dash {
                 output += toOutput;
                 this.config.onexecute(toOutput);
             }
+            else if (instructor.startsWith("*")) {
+                let toDuplicate = instructor.slice(1, instructor.length);
+
+                if (toDuplicate in variables) {
+                    variables[toDuplicate] *= expressionValue; 
+                }
+            }
             else if (instructor.startsWith("^")) 
                 jumpWithSignBitOf(1);
             else if (instructor.startsWith("v"))
@@ -164,10 +158,9 @@ export default class Dash {
             }
 
             function jumpWithSignBitOf(signBit) {
-                const COMPARE_REGEX = /^\((.*?)([|!])(.*?)\)$/;
-                
                 if (instructor.length === 1) jump();
                 else {
+                    const COMPARE_REGEX = /^\((.*?)([|!])(.*?)\)$/;
                     const comparedVar = instructor.slice(1, instructor.length);
                     const varExec = COMPARE_REGEX.exec(comparedVar);
     

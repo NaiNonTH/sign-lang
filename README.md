@@ -69,19 +69,6 @@ A pipe character (`|`) is used as a Barrier. When an intepreter encounters it, i
 >> |           | 0
 ```
 
-#### Duplicator
-
-Duplicator are Sign Groups inside the parenthesis (`(`, `)`). It can be used towards a Sign Group to perform a multiplication. When the intepreter encounters it, it will process the signs inside the duplicator to find its value, then use that value to multiply the current Sign Group value.
-
-**NOTE:** Currently, there is a bug that the Duplicator isn't scoped to only the Sign Group it's attached to.
-
-```
->> =-(----)         | 104 ((25 + 1) * (1 + 1 + 1 + 1))
->> = -(----)(----)  | 384* ((25 - 1) * (1 + 1 + 1 + 1) * (1 + 1 + 1 + 1))
-
-| * This supposed to be 9, but it didn't because I'm too dumb.
-```
-
 ### Output
 
 Dash uses Greater Sign (`>`) to output the value.
@@ -115,6 +102,16 @@ And if you want to call the label, you can use braces (`{`, `}`) with the variab
 
 #var {var}--- | var now contains 75 instead of 72
 >>   {var}    | 75
+```
+
+### Duplicator
+
+Duplicator uses asterisk sign (`*`) for a multiplication towards a [Label](#labels). It will take the value of the Label name after it and multiply it with the Expression value.
+
+```
+#a =-   | a is 26
+*a ---- | (26 * 4)
+>> {a}  | prints 98
 ```
 
 ### Jumps

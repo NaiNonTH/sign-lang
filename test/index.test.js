@@ -24,7 +24,7 @@ test("Sign Groups", async () => {
 test("Duplicators", async () => {
     const result = await getResultFromSample("test3");
 
-    expect(result).toBe("how");
+    expect(result).toBe("a");
 })
 
 test("Barriers", async () => {
