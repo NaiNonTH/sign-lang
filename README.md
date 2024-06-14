@@ -1,6 +1,6 @@
-# Dash (Language)
+# sign-lang (Language)
 
-Written in JavaScript, Sign is a [Brainfuck](https://en.wikipedia.org/wiki/Brainfuck) inspired programming language, designed to be another fancy way to say "Hello, world."
+Written in JavaScript, sign-lang is a [Brainfuck](https://en.wikipedia.org/wiki/Brainfuck) inspired programming language, designed to be another fancy way to say "Hello, world."
 
 ## Table of Contents:
 
@@ -17,10 +17,10 @@ Written in JavaScript, Sign is a [Brainfuck](https://en.wikipedia.org/wiki/Brain
 
 ## Language Concept
 
-Inside of the Dash code, you will find lines of Instruction, which can be separated into two parts: the **Instructor** and the **Expression**. The intepreter will use Instruction Pointer to mark the line that will be processed. Once it's processed, the Expression will be parsed into a value first though **Signs** inside it. Then, the intepreter will check the Instructor to see what to do with the processed Expression value.
+Inside of the sign-lang code, you will find lines of Instruction, which can be separated into two parts: the **Instructor** and the **Expression**. The intepreter will use Instruction Pointer to mark the line that will be processed. Once it's processed, the Expression will be parsed into a value first though **Signs** inside it. Then, the intepreter will check the Instructor to see what to do with the processed Expression value.
 
 ```
-| an example of Dash code that prints numbers from 1 to 10
+| an example of sign-lang code that prints numbers from 1 to 10
 
 #str       |
 #end       ----------
@@ -39,7 +39,7 @@ v(str|end) --
 
 Signs are the only way to define a value. When they are tailed (connected) to each other, a Sign Group is formed along with the Expression value being added by the sign's value.
 
-There are four Signs available in Dash:
+There are four Signs available in sign-lang:
 * `.` = 0.1
 * `_` = 0.5
 * `-` = 1
@@ -71,7 +71,7 @@ A pipe character (`|`) is used as a Barrier. When an intepreter encounters it, i
 
 ### Output
 
-Dash uses Greater Sign (`>`) to output the value.
+sign-lang uses Greater Sign (`>`) to output the value.
 
 * If there's only one (`>`), it will convert the Expression value into as ASCII character before printing.
 * If there are two (`>>`), it will simply print that value as a number.
