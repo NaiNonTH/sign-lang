@@ -1,8 +1,8 @@
 /**
  * @class
- * @classdesc Declare a new Dash Intepreter instance
+ * @classdesc Declare a new sign-lang Intepreter instance
  */
-export default class Dash {
+export default class {
     /**
      * @param {Object} config
      * @param {Function} config.onexecute
@@ -37,7 +37,7 @@ export default class Dash {
     }
 
     /**
-     * Start Intepreting the Dash source code in the argument
+     * Start Intepreting the sign-lang source code in the argument
      * @param {string} input
      * @returns {string}
      */

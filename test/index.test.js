@@ -1,11 +1,11 @@
 import { expect, test } from "bun:test"
-import Dash from "..";
+import SignLang from "..";
 
 // Made to test the test file itself, lol
 
 async function getResultFromSample(filename) {
     const src = await Bun.file(`./test/samples/${filename}.dsh`).text();
-    const intepreter = new Dash();
+    const intepreter = new SignLang();
     return intepreter.intepret(src);
 }
 
