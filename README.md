@@ -111,7 +111,7 @@ Duplicator uses asterisk sign (`*`) for a multiplication towards a [Label](#labe
 ```
 #a =-   | a is 26
 *a ---- | (26 * 4)
->> {a}  | prints 98
+>> {a}  | prints 104
 ```
 
 ### Jumps
