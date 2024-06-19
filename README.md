@@ -4,6 +4,10 @@ Written in JavaScript, sign-lang is a [Brainfuck](https://en.wikipedia.org/wiki/
 
 ## Table of Contents:
 
+* [Installation](#installation)
+* [Code Execution](#code-execution)
+  * [With CLI](#with-cli)
+  * [JavaScript](#javascript)
 * [Language Concept](#language-concept)
 * [Language Syntax](#language-syntax)
   * [Signs](#Signs)
@@ -14,6 +18,49 @@ Written in JavaScript, sign-lang is a [Brainfuck](https://en.wikipedia.org/wiki/
   * [Duplicator](#duplicator)
   * [Jumps](#jumps)
     * [Conditional Jumps](#conditional-jumps)
+  * [Reserved Variable](#reserved-variable)
+
+## Installation
+
+```sh
+npm install sign-lang
+```
+
+## Code Execution
+
+### With CLI
+
+You can execute the source file using the CLI tool:
+
+```sh
+npx sign-lang <path/to/file.sign> [-i <input>]
+```
+
+### JavaScript
+
+Or, you can also use the JavaScript API:
+
+```js
+import SignLang from "sign-lang";
+
+const src = ">> [in]";
+const input = "E";
+
+const intepreter = new SignLang().setInput(input).intepret(src);
+
+console.log(intepreter);
+```
+
+You can also log the value each time the intepreter output the value:
+
+```js
+new SignLang({
+  onexecute(value) {
+    console.log(value);
+  }
+}).setInput(input)
+  .intepret(src);
+```
 
 ## Language Concept
 
@@ -166,4 +213,33 @@ v(str|end) --         | will jump if 'str' is equal with 'end'
 ^(str!end) ----       | will jump if 'str' is "not" equal with 'end'
 
 | outputs "1,2,3,4,5,6,7,8,9,10"
+```
+
+### Reserved Variable
+
+You can access to the input and other special variable provided by the language by writing their name with brackets (`[`, `]`)
+
+* `[in]` is used to access each character of the input by the call time. If the call time is out of input's length then `NUL` character will be printed.
+* `[nl]` is for *new-line* character (`\n`)
+* `[sp]` is for *space* character (` `)
+
+```
+| If input is "abc"
+> [in]
+> == ------
+> [nl]
+> [in]
+> == ------
+> [nl]
+> [in]
+> == ------
+> [nl]
+> [in]
+
+| (prints ▼)
+| a,
+| b,
+| c,
+| ,
+| 
 ```
