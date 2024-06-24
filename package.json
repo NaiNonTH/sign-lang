@@ -14,6 +14,7 @@
     "typescript": "^5.0.0"
   },
   "author": "NaiNonTheN00b1",
+  "description": "A Brainfuck-inspired programming language.",
   "keywords": ["language", "for-fun", "binary", "cli", "intepreter"],
   "license": "MIT",
   "homepage": "https://github.com/NaiNonTH/sign-lang",
