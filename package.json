@@ -1,6 +1,5 @@
 {
   "name": "sign-lang",
-  "version": "1.0.0",
   "module": "index.js",
   "type": "module",
   "bin": "./bin/index.js",
@@ -12,10 +11,5 @@
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
-  },
-  "author": "NaiNonTheN00b1",
-  "keywords": ["language", "for-fun", "binary", "cli", "intepreter"],
-  "license": "MIT",
-  "homepage": "https://github.com/NaiNonTH/sign-lang",
-  "bugs": "https://github.com/NaiNonTH/sign-lang/issues"
+  }
 }
